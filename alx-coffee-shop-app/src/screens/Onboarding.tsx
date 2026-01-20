@@ -1,33 +1,37 @@
 import { View, Text, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React from "react";
 import PrimaryButton from "../components/PrimaryButton";
 import { colors } from "../constants";
-import { RootStackParamList } from "../navigation/types";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation";
+
+type OnboardingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Onboarding'>;
 
 export default function Onboarding() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<OnboardingScreenNavigationProp>();
 
   return (
-    <View
+    <View 
       className="flex-1 items-center justify-center gap-6 px-6"
-      style={{ backgroundColor: colors.background }}
+      style={{ backgroundColor: "black" }}
     >
       <Image
         source={require("../assets/images/Image Onboarding.png")}
-        className="w-full h-2/3"
-        resizeMode="contain"
+        className="w-full h-2/3 absolute top-0 opacity-80"
+        resizeMode="cover"
       />
-      <View className="items-center gap-2">
-        <Text className="text-3xl font-bold text-amber-900 text-center">
-          Coffee so good, your taste buds will love it.
-        </Text>
-        <Text className="text-base text-stone-500 text-center px-4">
-          The best grain, the finest roast, the powerful flavor.
-        </Text>
-      </View>
-      <View className="w-full px-4">
-        <PrimaryButton title="Get Started" onPress={() => navigation.replace("MainTabs")} />
+      <View className="flex-1 justify-end w-full pb-10 gap-4">
+        <View className="items-center gap-2">
+            <Text className="text-4xl font-bold text-white text-center">Fall in Love with Coffee in Blissful Delight!</Text>
+            <Text className="text-base text-gray-300 text-center">
+            Welcome to our cozy coffee corner, where every cup is a delightful for you.
+            </Text>
+        </View>
+        <PrimaryButton 
+            title="Get Started" 
+            onPress={() => navigation.replace('Main')}
+        />
       </View>
     </View>
   );

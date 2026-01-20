@@ -1,68 +1,46 @@
-import { ImageSourcePropType } from "react-native";
+import { Coffee } from '../types';
 
-export interface Coffee {
-  id: string;
-  name: string;
-  type: string;
-  price: number;
-  rating: number;
-  description: string;
-  image: ImageSourcePropType;
-}
+export const categories = ['All Coffee', 'Machiato', 'Latte', 'Americano'];
 
 export const coffeeData: Coffee[] = [
   {
-    id: "1",
-    name: "Cappuccino",
-    type: "With Chocolate",
+    id: '1',
+    name: 'Caffe Mocha',
+    type: 'Deep Foam',
     price: 4.53,
+    description: 'Deep Foam Caffe Mocha with chocolate and milk. A perfect blend for chocolate lovers.',
     rating: 4.8,
-    description: "A cappuccino is an espresso-based coffee drink that originated in Italy and is prepared with steamed milk foam.",
-    image: require("../assets/images/Property 1=Coffee, Property 2=1.png"),
+    image: require('../assets/images/Image Onboarding.png'), // Placeholder, replace with actual assets
+    category: 'Machiato',
   },
   {
-    id: "2",
-    name: "Cappuccino",
-    type: "With Oat Milk",
-    price: 3.90,
+    id: '2',
+    name: 'Flat White',
+    type: 'Espresso',
+    price: 3.53,
+    description: 'Smooth Flat White with a thin layer of microfoam.',
     rating: 4.5,
-    description: "A cappuccino is an espresso-based coffee drink that originated in Italy and is prepared with steamed milk foam.",
-    image: require("../assets/images/Property 1=Coffee, Property 2=2.png"),
+    image: require('../assets/images/Image Onboarding.png'), // Placeholder
+    category: 'Latte',
   },
   {
-    id: "3",
-    name: "Cappuccino",
-    type: "With Chocolate",
-    price: 4.53,
-    rating: 4.8,
-    description: "A cappuccino is an espresso-based coffee drink that originated in Italy and is prepared with steamed milk foam.",
-    image: require("../assets/images/Property 1=Coffee, Property 2=3.png"),
+    id: '3',
+    name: 'Mochaccino',
+    type: 'Chocolate',
+    price: 5.53,
+    description: 'A delicious Mochaccino with extra chocolate syrup.',
+    rating: 4.9,
+    image: require('../assets/images/Image Onboarding.png'), // Placeholder
+    category: 'Americano',
   },
   {
-    id: "4",
-    name: "Cappuccino",
-    type: "With Oat Milk",
-    price: 3.90,
-    rating: 4.5,
-    description: "A cappuccino is an espresso-based coffee drink that originated in Italy and is prepared with steamed milk foam.",
-    image: require("../assets/images/Property 1=Coffee, Property 2=4.png"),
-  },
-  {
-    id: "5",
-    name: "Cappuccino",
-    type: "With Chocolate",
-    price: 4.53,
-    rating: 4.8,
-    description: "A cappuccino is an espresso-based coffee drink that originated in Italy and is prepared with steamed milk foam.",
-    image: require("../assets/images/Property 1=Coffee, Property 2=5.png"),
-  },
-  {
-    id: "6",
-    name: "Cappuccino",
-    type: "With Oat Milk",
-    price: 3.90,
-    rating: 4.5,
-    description: "A cappuccino is an espresso-based coffee drink that originated in Italy and is prepared with steamed milk foam.",
-    image: require("../assets/images/Property 1=Coffee, Property 2=6.png"),
+    id: '4',
+    name: 'Cappuccino',
+    type: 'Steamed Milk',
+    price: 4.00,
+    description: 'Classic Cappuccino with equal parts espresso, steamed milk, and foam.',
+    rating: 4.7,
+    image: require('../assets/images/Image Onboarding.png'), // Placeholder
+    category: 'Latte',
   },
 ];

@@ -1,15 +1,27 @@
-import { View, Text, FlatList, Image, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { RootStackParamList } from "../navigation/types";
-import { coffeeData, Coffee } from "../data/coffee";
-import { colors } from "../constants";
 // @ts-ignore
 import Ionicons from '@expo/vector-icons/Ionicons';
 
+import { colors } from "../constants";
+import { coffeeData, categories } from "../data/coffee";
+import { RootStackParamList } from "../navigation";
+import { Coffee } from "../types";
+import { useStore } from "../store/useStore";
+
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Main'>;
+
 export default function Home() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const [activeCategory, setActiveCategory] = useState('All Coffee');
+  const addToCart = useStore((state) => state.addToCart);
+
+  const filteredCoffee = activeCategory === 'All Coffee' 
+    ? coffeeData 
+    : coffeeData.filter(item => item.category === activeCategory);
 
   const renderItem = ({ item }: { item: Coffee }) => (
     <TouchableOpacity
@@ -27,16 +39,20 @@ export default function Home() {
         <Text className="text-base font-bold text-amber-900">
           $ {item.price.toFixed(2)}
         </Text>
-        <View className="bg-amber-900 rounded-full p-1">
+        <TouchableOpacity 
+          className="bg-amber-900 rounded-full p-1"
+          onPress={() => addToCart(item, 'M')}
+        >
            <Ionicons name="add" size={16} color="white" />
-        </View>
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
 
   return (
     <SafeAreaView className="flex-1" style={{ backgroundColor: colors.background }}>
-      <View className="px-6 pt-2 pb-4">
+      <View className="px-6 pt-2 pb-4 flex-1">
+        {/* Header */}
         <View className="flex-row justify-between items-center mb-6">
            <View>
               <Text className="text-stone-400 text-sm">Location</Text>
@@ -48,28 +64,39 @@ export default function Home() {
            />
         </View>
 
-        <View className="flex-row items-center bg-stone-800 rounded-2xl p-4 mb-6 relative overflow-hidden">
-           <View className="flex-1 z-10">
+        {/* Search Bar */}
+        <View className="flex-row items-center bg-stone-100 rounded-xl px-4 py-2 mb-6">
+           <Ionicons name="search" size={20} color={colors.mutedText} />
+           <TextInput 
+              placeholder="Search coffee" 
+              className="flex-1 ml-2 text-stone-800"
+              placeholderTextColor={colors.mutedText}
+           />
+           <Ionicons name="filter" size={20} color={colors.primary} />
+        </View>
+
+        {/* Banner */}
+        <View className="flex-row items-center bg-stone-800 rounded-2xl p-4 mb-6 relative overflow-hidden h-36">
+           <View className="flex-1 z-10 justify-center h-full">
               <View className="bg-red-500 rounded-lg px-2 py-1 self-start mb-2">
                 <Text className="text-white text-xs font-bold">Promo</Text>
               </View>
               <Text className="text-white text-2xl font-bold mb-2">Buy one get{"\n"}one FREE</Text>
            </View>
-           <Image 
-             source={require("../assets/images/Banner 1.png")} 
-             className="absolute right-0 top-0 w-32 h-full"
-             resizeMode="cover"
-           />
+           {/* Placeholder for banner image */}
+           <View className="absolute right-0 top-0 w-32 h-full bg-stone-700 opacity-50" />
         </View>
 
-        <View className="mb-6">
+        {/* Categories */}
+        <View className="mb-6 h-10">
            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row gap-4">
-              {['Cappuccino', 'Machiato', 'Latte', 'Americano'].map((cat, index) => (
+              {categories.map((cat, index) => (
                  <TouchableOpacity 
                    key={index} 
-                   className={`px-4 py-2 rounded-lg ${index === 0 ? 'bg-amber-900' : 'bg-white'}`}
+                   className={`px-4 py-2 rounded-lg ${activeCategory === cat ? 'bg-amber-900' : 'bg-white'}`}
+                   onPress={() => setActiveCategory(cat)}
                  >
-                    <Text className={`font-semibold ${index === 0 ? 'text-white' : 'text-stone-600'}`}>
+                    <Text className={`font-semibold ${activeCategory === cat ? 'text-white' : 'text-stone-600'}`}>
                        {cat}
                     </Text>
                  </TouchableOpacity>
@@ -77,8 +104,9 @@ export default function Home() {
            </ScrollView>
         </View>
 
+        {/* Coffee List */}
         <FlatList
-          data={coffeeData}
+          data={filteredCoffee}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           numColumns={2}
@@ -90,6 +118,3 @@ export default function Home() {
     </SafeAreaView>
   );
 }
-
-// Temporary ScrollView import fix
-import { ScrollView } from "react-native";
