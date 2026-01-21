@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 // @ts-ignore
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import Onboarding from '../screens/Onboarding';
+import CoffeeOnboardingScreen from '../screens/CoffeeOnboardingScreen';
 import Home from '../screens/Home';
 import DetailItem from '../screens/DetailItem';
 import Order from '../screens/Order';
@@ -74,7 +74,7 @@ export default function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="Onboarding" component={CoffeeOnboardingScreen} />
         <Stack.Screen name="Main" component={TabNavigator} />
         <Stack.Screen name="Details" component={DetailItem} />
         <Stack.Screen name="Order" component={Order} />
