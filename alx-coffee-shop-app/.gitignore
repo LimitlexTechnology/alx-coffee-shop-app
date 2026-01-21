@@ -5,3 +5,7 @@ android/
 ios/
 web-build/
 *.log
+<<<<<<< HEAD
+=======
+*.lock
+>>>>>>> origin/main
