@@ -175,16 +175,20 @@ export default function Order() {
          </ScrollView>
 
          {/* Bottom Order Button */}
-         <SafeAreaView edges={['bottom']} className="absolute bottom-0 left-0 right-0 bg-white border-t border-coffee-gray/20 px-6 py-4">
-            <TouchableOpacity
-               className="bg-coffee-primary rounded-2xl py-5 items-center shadow-lg"
-               onPress={() => navigation.navigate('Delivery')}
-               disabled={cart.length === 0}
-               style={{ opacity: cart.length === 0 ? 0.5 : 1 }}
-            >
-               <Text className="text-white font-bold text-base">Order</Text>
-            </TouchableOpacity>
-         </SafeAreaView>
+         <View className="bg-white border-t border-coffee-gray/20">
+            <SafeAreaView edges={['bottom']}>
+               <View className="px-6 py-4">
+                  <TouchableOpacity
+                     className="bg-coffee-primary rounded-2xl py-5 items-center shadow-lg"
+                     onPress={() => navigation.navigate('Delivery')}
+                     disabled={cart.length === 0}
+                     style={{ opacity: cart.length === 0 ? 0.5 : 1 }}
+                  >
+                     <Text className="text-white font-bold text-base">Order</Text>
+                  </TouchableOpacity>
+               </View>
+            </SafeAreaView>
+         </View>
       </View>
    );
 }
