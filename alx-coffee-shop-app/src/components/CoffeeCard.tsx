@@ -11,7 +11,7 @@ interface CoffeeCardProps {
 }
 
 const { width } = Dimensions.get('window');
-const cardWidth = (width - 48 - 16) / 2;
+const cardWidth = (width - 48 - 16) / 2; // (Screen Width - PaddingHorizontal - Gap) / 2
 
 const CoffeeCard = ({ item, onPress, onAddToCart }: CoffeeCardProps) => {
     return (
@@ -26,6 +26,7 @@ const CoffeeCard = ({ item, onPress, onAddToCart }: CoffeeCardProps) => {
                     className="w-full h-32 rounded-xl mb-3"
                     resizeMode="cover"
                 />
+                {/* Rating Badge */}
                 <View className="absolute top-0 right-0 bg-black/50 rounded-bl-2xl rounded-tr-xl px-2 py-1 flex-row items-center">
                     <Ionicons name="star" size={10} color="#FBBE21" />
                     <Text className="text-white text-[10px] font-bold ml-1">{item.rating}</Text>
