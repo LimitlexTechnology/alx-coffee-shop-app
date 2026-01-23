@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, useWindowDimensions, Platform } from 'react-native';
 // @ts-ignore
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Coffee } from '../types';
@@ -17,7 +17,8 @@ const CoffeeCard = ({ item, onPress, onAddToCart, numColumns = 2 }: CoffeeCardPr
     // Calculate width based on columns and padding
     // Padding: 24 on each side = 48
     // Gap: 16 between cards
-    const totalHorizontalPadding = 48 + (numColumns - 1) * 16;
+    const scrollbarBuffer = Platform.OS === 'web' ? 20 : 0;
+    const totalHorizontalPadding = 48 + (numColumns - 1) * 16 + scrollbarBuffer;
     const cardWidth = (Math.min(width, 1024) - totalHorizontalPadding) / numColumns;
 
     return (
@@ -27,11 +28,16 @@ const CoffeeCard = ({ item, onPress, onAddToCart, numColumns = 2 }: CoffeeCardPr
             onPress={onPress}
         >
             <View className="relative">
-                <Image
-                    source={item.image}
-                    className="w-full h-32 rounded-xl mb-3"
-                    resizeMode="cover"
-                />
+                <View 
+                    className="w-full rounded-xl mb-3 bg-coffee-light overflow-hidden items-center justify-center"
+                    style={{ height: width > 768 ? 200 : 140 }}
+                >
+                    <Image
+                        source={item.image}
+                        style={{ width: '100%', height: '100%' }}
+                        resizeMode="contain"
+                    />
+                </View>
                 {/* Rating Badge */}
                 <View className="absolute top-0 right-0 bg-black/50 rounded-bl-2xl rounded-tr-xl px-2 py-1 flex-row items-center">
                     <Ionicons name="star" size={10} color="#FBBE21" />
