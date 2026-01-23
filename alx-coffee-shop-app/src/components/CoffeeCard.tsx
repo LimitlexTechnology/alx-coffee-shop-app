@@ -29,13 +29,12 @@ const CoffeeCard = ({ item, onPress, onAddToCart, numColumns = 2 }: CoffeeCardPr
         >
             <View className="relative">
                 <View 
-                    className="w-full rounded-xl mb-3 bg-coffee-light overflow-hidden items-center justify-center"
-                    style={{ height: width > 768 ? 200 : 140 }}
+                    className="w-full aspect-square rounded-xl mb-3 bg-coffee-light overflow-hidden items-center justify-center"
                 >
                     <Image
                         source={item.image}
                         style={{ width: '100%', height: '100%' }}
-                        resizeMode="contain"
+                        resizeMode="cover"
                     />
                 </View>
                 {/* Rating Badge */}

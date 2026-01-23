@@ -96,7 +96,7 @@ export default function Order() {
                               key={`${item.id}-${item.size}`}
                               className="flex-row items-center bg-white rounded-xl p-3 mb-3 shadow-sm"
                            >
-                              <View className="w-14 h-14 rounded-2xl overflow-hidden mr-4">
+                              <View className="w-14 h-14 rounded-xl overflow-hidden mr-4">
                                  <Image
                                     source={item.image}
                                     className="w-full h-full"

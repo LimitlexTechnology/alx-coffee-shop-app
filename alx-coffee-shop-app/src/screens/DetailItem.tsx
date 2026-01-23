@@ -60,7 +60,7 @@ export default function DetailItem() {
                <View className={`px-6 ${isLargeScreen ? 'flex-row gap-8 py-6' : ''}`}>
                   {/* Product Image */}
                   <View className={`${isLargeScreen ? 'flex-1' : 'mb-4'}`}>
-                     <View className={`w-full ${isLargeScreen ? 'aspect-square' : 'h-56'} rounded-2xl overflow-hidden bg-coffee-dark`}>
+                     <View className="w-full aspect-square rounded-2xl overflow-hidden bg-coffee-dark">
                         <Image
                            source={coffee.image}
                            className="w-full h-full"
