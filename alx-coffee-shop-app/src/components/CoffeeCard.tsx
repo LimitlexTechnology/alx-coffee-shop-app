@@ -11,7 +11,7 @@ interface CoffeeCardProps {
 }
 
 const { width } = Dimensions.get('window');
-const cardWidth = (width - 48 - 16) / 2;
+const cardWidth = (width - 48 - 16) / 2; // (Screen Width - PaddingHorizontal - Gap) / 2
 
 const CoffeeCard = ({ item, onPress, onAddToCart }: CoffeeCardProps) => {
     return (

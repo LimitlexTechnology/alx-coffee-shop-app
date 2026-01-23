@@ -8,10 +8,12 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import CoffeeOnboardingScreen from '../screens/CoffeeOnboardingScreen';
 import Home from '../screens/Home';
 import DetailItem from '../screens/DetailItem';
-import Order from '../screens/Order';
+import Order from '../screens/Order'; // Acts as Cart
+import Orders from '../screens/Orders'; // Order History
 import Delivery from '../screens/Delivery';
 import Favorites from '../screens/Favorites';
 import Notifications from '../screens/Notifications';
+import Profile from '../screens/Profile'; // Profile Placeholder
 import { colors } from '../constants';
 import { Coffee } from '../types';
 
@@ -19,15 +21,16 @@ export type RootStackParamList = {
   Onboarding: undefined;
   Main: undefined;
   Details: { coffee: Coffee };
-  Order: undefined;
+  Order: undefined; // Cart
   Delivery: undefined;
 };
 
 export type TabParamList = {
   Home: undefined;
   Favorites: undefined;
-  Bag: undefined;
-  Notifications: undefined;
+  Cart: undefined;
+  Orders: undefined;
+  Profile: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -42,8 +45,13 @@ function TabNavigator() {
         tabBarStyle: {
           backgroundColor: 'white',
           borderTopWidth: 0,
-          elevation: 0,
-          height: 60,
+          elevation: 10, // Shadow
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          height: 80, // Taller bar
+          paddingTop: 10,
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName: any;
@@ -52,20 +60,25 @@ function TabNavigator() {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Favorites') {
             iconName = focused ? 'heart' : 'heart-outline';
-          } else if (route.name === 'Bag') {
+          } else if (route.name === 'Cart') {
+            // Bag or Cart icon
             iconName = focused ? 'bag' : 'bag-outline';
-          } else if (route.name === 'Notifications') {
-            iconName = focused ? 'notifications' : 'notifications-outline';
+          } else if (route.name === 'Orders') {
+            iconName = focused ? 'receipt' : 'receipt-outline'; // or notifications if preferred
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
           }
 
-          return <Ionicons name={iconName as any} size={24} color={focused ? colors.primary : colors.mutedText} />;
+          // Use the primary color for active, muted for inactive (passed as color prop if configured, or manual)
+          return <Ionicons name={iconName} size={24} color={focused ? colors.primary : '#D8D8D8'} />;
         },
       })}
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Favorites" component={Favorites} />
-      <Tab.Screen name="Bag" component={Order} />
-      <Tab.Screen name="Notifications" component={Notifications} />
+      <Tab.Screen name="Cart" component={Order} />
+      <Tab.Screen name="Orders" component={Orders} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 }
@@ -83,3 +96,4 @@ export default function RootNavigator() {
     </NavigationContainer>
   );
 }
+

@@ -23,9 +23,7 @@ const Categories = ({ activeCategory, setActiveCategory }: CategoriesProps) => {
                             className={`px-4 py-2 rounded-xl ${isActive ? 'bg-coffee-primary' : 'bg-white'}`}
                             onPress={() => setActiveCategory(cat)}
                         >
-                            <Text
-                                className={`font-semibold ${isActive ? 'text-white' : 'text-stone-600'}`}
-                            >
+                            <Text className={`font-semibold ${isActive ? 'text-white' : 'text-stone-600'}`}>
                                 {cat}
                             </Text>
                         </TouchableOpacity>
