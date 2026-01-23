@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, StatusBar } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -14,107 +14,140 @@ type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 type DetailScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Details'>;
 
 export default function DetailItem() {
-  const route = useRoute<DetailScreenRouteProp>();
-  const navigation = useNavigation<DetailScreenNavigationProp>();
-  const { coffee } = route.params;
-  const [selectedSize, setSelectedSize] = useState<'S' | 'M' | 'L'>('M');
-  const addToCart = useStore((state) => state.addToCart);
-  const toggleFavorite = useStore((state) => state.toggleFavorite);
-  const favorites = useStore((state) => state.favorites);
-  
-  const isFavorite = favorites.includes(coffee.id);
+   const route = useRoute<DetailScreenRouteProp>();
+   const navigation = useNavigation<DetailScreenNavigationProp>();
+   const { coffee } = route.params;
+   const [selectedSize, setSelectedSize] = useState<'S' | 'M' | 'L'>('M');
+   const [showFullDescription, setShowFullDescription] = useState(false);
+   const addToCart = useStore((state) => state.addToCart);
+   const toggleFavorite = useStore((state) => state.toggleFavorite);
+   const favorites = useStore((state) => state.favorites);
 
-  const handleAddToCart = () => {
-    addToCart(coffee, selectedSize);
-    navigation.navigate('Order');
-  };
+   const isFavorite = favorites.includes(coffee.id);
 
-  return (
-    <View className="flex-1 bg-white">
-      <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}>
-        {/* Header Image */}
-        <View className="relative h-72 w-full">
-           <Image 
-              source={coffee.image} 
-              className="w-full h-full"
-              resizeMode="cover"
-           />
-           <View className="absolute top-12 left-6 right-6 flex-row justify-between items-center">
-              <TouchableOpacity onPress={() => navigation.goBack()} className="bg-white/30 backdrop-blur-md p-2 rounded-full">
-                 <Ionicons name="arrow-back" size={24} color="white" />
-              </TouchableOpacity>
-              <Text className="text-xl font-bold text-white">Detail</Text>
-              <TouchableOpacity onPress={() => toggleFavorite(coffee.id)} className="bg-white/30 backdrop-blur-md p-2 rounded-full">
-                 <Ionicons name={isFavorite ? "heart" : "heart-outline"} size={24} color={isFavorite ? "red" : "white"} />
-              </TouchableOpacity>
-           </View>
-        </View>
+   const handleAddToCart = () => {
+      addToCart(coffee, selectedSize);
+      navigation.navigate('Order');
+   };
 
-        <View className="px-6 pt-6">
-           {/* Title & Rating */}
-           <View className="mb-4">
-              <Text className="text-2xl font-bold text-stone-800">{coffee.name}</Text>
-              <Text className="text-stone-500 text-sm mb-2">{coffee.type}</Text>
-              <View className="flex-row items-center justify-between">
-                 <View className="flex-row items-center gap-1">
-                    <Ionicons name="star" size={20} color={colors.secondary} />
-                    <Text className="text-lg font-bold text-stone-800">{coffee.rating}</Text>
-                    <Text className="text-stone-400 text-sm">(230)</Text>
-                 </View>
-                 <View className="flex-row gap-4">
-                    <View className="bg-stone-100 p-2 rounded-lg">
-                       <Ionicons name="bicycle" size={20} color={colors.primary} />
-                    </View>
-                    <View className="bg-stone-100 p-2 rounded-lg">
-                       <Ionicons name="cafe" size={20} color={colors.primary} />
-                    </View>
-                 </View>
-              </View>
-           </View>
-           
-           <View className="h-[1px] bg-stone-200 my-4" />
+   const truncatedDescription = coffee.description.slice(0, 120) + "...";
 
-           {/* Description */}
-           <View className="mb-6">
-              <Text className="text-lg font-bold text-stone-800 mb-2">Description</Text>
-              <Text className="text-stone-500 leading-6">
-                 {coffee.description}
-              </Text>
-           </View>
+   return (
+      <View className="flex-1 bg-white">
+         <StatusBar barStyle="dark-content" backgroundColor="white" />
 
-           {/* Size Selection */}
-           <View className="mb-6">
-              <Text className="text-lg font-bold text-stone-800 mb-4">Size</Text>
-              <View className="flex-row justify-between gap-4">
-                 {(['S', 'M', 'L'] as const).map((size) => (
-                    <TouchableOpacity
-                       key={size}
-                       className={`flex-1 py-3 rounded-xl border items-center justify-center ${selectedSize === size ? 'bg-amber-50 border-amber-900' : 'bg-white border-stone-200'}`}
-                       onPress={() => setSelectedSize(size)}
-                    >
-                       <Text className={`font-semibold ${selectedSize === size ? 'text-amber-900' : 'text-stone-600'}`}>
-                          {size}
-                       </Text>
-                    </TouchableOpacity>
-                 ))}
-              </View>
-           </View>
-        </View>
-      </ScrollView>
+         {/* Header */}
+         <SafeAreaView edges={['top']} className="bg-white">
+            <View className="flex-row items-center justify-between px-6 py-4">
+               <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Ionicons name="arrow-back" size={24} color="#2F2D2C" />
+               </TouchableOpacity>
+               <Text className="text-lg font-semibold text-coffee-text">Detail</Text>
+               <TouchableOpacity onPress={() => toggleFavorite(coffee.id)}>
+                  <Ionicons
+                     name={isFavorite ? "heart" : "heart-outline"}
+                     size={24}
+                     color={isFavorite ? "#C67C4E" : "#2F2D2C"}
+                  />
+               </TouchableOpacity>
+            </View>
+         </SafeAreaView>
 
-      {/* Bottom Action Bar */}
-      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-stone-100 px-6 py-4 rounded-t-3xl shadow-lg flex-row items-center justify-between">
-         <View>
-            <Text className="text-stone-400 text-sm">Price</Text>
-            <Text className="text-2xl font-bold text-amber-900">$ {coffee.price.toFixed(2)}</Text>
-         </View>
-         <TouchableOpacity 
-            className="bg-amber-900 px-10 py-4 rounded-2xl"
-            onPress={handleAddToCart}
-         >
-            <Text className="text-white font-bold text-lg">Buy Now</Text>
-         </TouchableOpacity>
+         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+            {/* Product Image */}
+            <View className="px-6 mb-4">
+               <View className="w-full h-56 rounded-2xl overflow-hidden bg-coffee-dark">
+                  <Image
+                     source={coffee.image}
+                     className="w-full h-full"
+                     resizeMode="cover"
+                  />
+               </View>
+            </View>
+
+            <View className="px-6">
+               {/* Product Name & Type */}
+               <Text className="text-xl font-bold text-coffee-text mb-1">{coffee.name}</Text>
+               <Text className="text-sm text-coffee-muted mb-3">Ice/Hot</Text>
+
+               {/* Rating & Feature Icons */}
+               <View className="flex-row items-center justify-between mb-5">
+                  <View className="flex-row items-center gap-1">
+                     <Ionicons name="star" size={20} color="#FBBE21" />
+                     <Text className="text-base font-semibold text-coffee-text">{coffee.rating}</Text>
+                     <Text className="text-sm text-coffee-muted">(230)</Text>
+                  </View>
+
+                  <View className="flex-row gap-3">
+                     <View className="bg-coffee-secondary w-11 h-11 rounded-xl items-center justify-center">
+                        <Ionicons name="cafe-outline" size={20} color="#C67C4E" />
+                     </View>
+                     <View className="bg-coffee-secondary w-11 h-11 rounded-xl items-center justify-center">
+                        <Ionicons name="water-outline" size={20} color="#C67C4E" />
+                     </View>
+                     <View className="bg-coffee-secondary w-11 h-11 rounded-xl items-center justify-center">
+                        <Ionicons name="bag-outline" size={20} color="#C67C4E" />
+                     </View>
+                  </View>
+               </View>
+
+               <View className="h-px bg-coffee-gray mb-4" />
+
+               {/* Description */}
+               <View className="mb-5">
+                  <Text className="text-base font-semibold text-coffee-text mb-3">Description</Text>
+                  <Text className="text-sm text-coffee-muted leading-5">
+                     {showFullDescription ? coffee.description : truncatedDescription}
+                     {!showFullDescription && (
+                        <Text
+                           className="text-coffee-primary font-semibold"
+                           onPress={() => setShowFullDescription(true)}
+                        >
+                           {" "}Read More
+                        </Text>
+                     )}
+                  </Text>
+               </View>
+
+               {/* Size Selection */}
+               <View className="mb-32">
+                  <Text className="text-base font-semibold text-coffee-text mb-3">Size</Text>
+                  <View className="flex-row justify-between gap-3">
+                     {(['S', 'M', 'L'] as const).map((size) => (
+                        <TouchableOpacity
+                           key={size}
+                           className={`flex-1 py-3 rounded-xl border items-center justify-center ${selectedSize === size
+                                 ? 'bg-coffee-secondary/30 border-coffee-primary'
+                                 : 'bg-white border-coffee-gray'
+                              }`}
+                           onPress={() => setSelectedSize(size)}
+                        >
+                           <Text className={`text-sm font-semibold ${selectedSize === size ? 'text-coffee-text' : 'text-coffee-muted'
+                              }`}>
+                              {size}
+                           </Text>
+                        </TouchableOpacity>
+                     ))}
+                  </View>
+               </View>
+            </View>
+         </ScrollView>
+
+         {/* Bottom Action Bar */}
+         <SafeAreaView edges={['bottom']} className="bg-white">
+            <View className="px-6 py-4 flex-row items-center justify-between border-t border-coffee-gray/30">
+               <View>
+                  <Text className="text-sm text-coffee-muted mb-1">Price</Text>
+                  <Text className="text-lg font-bold text-coffee-primary">$ {coffee.price.toFixed(2)}</Text>
+               </View>
+               <TouchableOpacity
+                  className="bg-coffee-primary px-16 py-4 rounded-2xl"
+                  onPress={handleAddToCart}
+               >
+                  <Text className="text-white font-semibold text-base">Buy Now</Text>
+               </TouchableOpacity>
+            </View>
+         </SafeAreaView>
       </View>
-    </View>
-  );
+   );
 }
