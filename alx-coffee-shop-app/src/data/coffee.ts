@@ -1,6 +1,6 @@
 import { Coffee } from '../types';
 
-export const categories = ['All Coffee', 'Machiato', 'Latte', 'Americano'];
+export const categories = ['All Coffee', 'Machiato', 'Mocha', 'Latte', 'Americano'];
 
 export const coffeeData: Coffee[] = [
   {
@@ -11,7 +11,7 @@ export const coffeeData: Coffee[] = [
     description: 'A rich, full-bodied espresso combined with bittersweet chocolate sauce and steamed milk, then topped with sweetened whipped cream. The perfect balance of coffee and chocolate.',
     rating: 4.8,
     image: require('../assets/images/caffe-mocha.png'),
-    category: 'Machiato',
+    category: 'Mocha',
   },
   {
     id: '2',
