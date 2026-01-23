@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StatusBar } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -6,72 +6,98 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 // @ts-ignore
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { colors } from '../constants';
 import { RootStackParamList } from '../navigation';
 
 type DeliveryScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Delivery'>;
 
 export default function Delivery() {
-  const navigation = useNavigation<DeliveryScreenNavigationProp>();
+   const navigation = useNavigation<DeliveryScreenNavigationProp>();
 
-  return (
-    <View className="flex-1 bg-stone-100">
-      {/* Map Placeholder */}
-      <View className="flex-1 bg-stone-300 items-center justify-center relative">
-         <Image 
-            source={require('../assets/images/Image Onboarding.png')} 
-            className="w-full h-full opacity-30"
-            resizeMode="cover"
-         />
-         <View className="absolute top-12 left-6">
-            <TouchableOpacity onPress={() => navigation.navigate('Main')} className="bg-white p-2 rounded-xl shadow-sm">
-               <Ionicons name="arrow-back" size={24} color="black" />
-            </TouchableOpacity>
+   return (
+      <View className="flex-1 bg-white">
+         <StatusBar barStyle="dark-content" backgroundColor="#F5F5F5" />
+
+         {/* Map Placeholder */}
+         <View className="flex-1 bg-gray-300 relative">
+            <View className="absolute inset-0 bg-gray-200" />
+
+            {/* Simulated route markers */}
+            <View className="absolute top-24 left-12">
+               <View className="w-6 h-6 bg-coffee-primary rounded-full border-4 border-white" />
+            </View>
+            <View className="absolute top-44 right-16">
+               <Ionicons name="location" size={32} color="#C67C4E" />
+            </View>
+
+            {/* Back Button */}
+            <SafeAreaView edges={['top']} className="absolute top-0 left-0">
+               <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                  className="ml-4 mt-2 w-11 h-11 bg-white rounded-xl items-center justify-center shadow-md"
+               >
+                  <Ionicons name="arrow-back" size={20} color="#303336" />
+               </TouchableOpacity>
+            </SafeAreaView>
+
+            {/* GPS/Location Button */}
+            <SafeAreaView edges={['top']} className="absolute top-0 right-0">
+               <TouchableOpacity className="mr-4 mt-2 w-11 h-11 bg-white rounded-xl items-center justify-center shadow-md">
+                  <Ionicons name="navigate-circle-outline" size={24} color="#303336" />
+               </TouchableOpacity>
+            </SafeAreaView>
          </View>
-         <View className="absolute top-12 right-6">
-            <TouchableOpacity className="bg-white p-2 rounded-xl shadow-sm">
-               <Ionicons name="settings-outline" size={24} color="black" />
-            </TouchableOpacity>
+
+         {/* Bottom Card */}
+         <View className="bg-white rounded-t-3xl px-6 pt-4 pb-8 shadow-2xl" style={{ elevation: 20 }}>
+            {/* Drag Indicator */}
+            <View className="w-12 h-1 bg-gray-300 rounded-full self-center mb-4" />
+
+            {/* Timer & Address */}
+            <View className="items-center mb-4">
+               <Text className="text-base font-bold text-coffee-text mb-1">10 minutes left</Text>
+               <Text className="text-xs text-coffee-muted mb-3">
+                  Delivery to <Text className="font-semibold text-coffee-text">Jl. Kpg Sutoyo</Text>
+               </Text>
+
+               {/* Progress Bar */}
+               <View className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+                  <View className="w-3/4 h-full bg-green-500 rounded-full" />
+               </View>
+            </View>
+
+            {/* Delivery Status Card */}
+            <View className="bg-white border border-gray-200 rounded-2xl p-4 mb-4 flex-row items-start">
+               <View className="w-12 h-12 bg-gray-100 rounded-xl items-center justify-center mr-3">
+                  <Ionicons name="cube-outline" size={24} color="#C67C4E" />
+               </View>
+               <View className="flex-1">
+                  <Text className="text-sm font-bold text-coffee-text mb-1">Delivered your order</Text>
+                  <Text className="text-xs text-coffee-muted leading-4">
+                     We will deliver your goods to you in the shortest possible time.
+                  </Text>
+               </View>
+            </View>
+
+            {/* Driver Info */}
+            <View className="flex-row items-center bg-white">
+               <View className="w-16 h-16 rounded-2xl overflow-hidden mr-3 bg-gray-200">
+                  <Image
+                     source={require('../assets/images/Image Onboarding.png')}
+                     className="w-full h-full"
+                     resizeMode="cover"
+                  />
+               </View>
+
+               <View className="flex-1">
+                  <Text className="text-base font-bold text-coffee-text">Brooklyn Simmons</Text>
+                  <Text className="text-xs text-coffee-muted">Personal Courier</Text>
+               </View>
+
+               <TouchableOpacity className="w-12 h-12 bg-white border border-gray-300 rounded-xl items-center justify-center">
+                  <Ionicons name="call" size={20} color="#303336" />
+               </TouchableOpacity>
+            </View>
          </View>
       </View>
-
-      {/* Bottom Sheet */}
-      <View className="bg-white rounded-t-3xl px-6 py-8 -mt-6">
-         <View className="items-center mb-6">
-            <View className="w-12 h-1 bg-stone-300 rounded-full mb-4" />
-            <Text className="text-lg font-bold text-stone-800">10 minutes left</Text>
-            <Text className="text-stone-400 text-sm">Delivery to <Text className="text-stone-800 font-bold">Jl. Kpg Sutoyo</Text></Text>
-            <View className="flex-row mt-4 w-full h-1 bg-stone-100 rounded-full overflow-hidden">
-               <View className="w-3/4 bg-green-500 h-full rounded-full" />
-            </View>
-         </View>
-
-         {/* Delivery Info */}
-         <View className="flex-row items-center border border-stone-200 rounded-xl p-4 mb-6">
-            <View className="border border-green-500 p-3 rounded-xl mr-4">
-               <Ionicons name="bicycle" size={24} color={colors.primary} />
-            </View>
-            <View className="flex-1">
-               <Text className="text-base font-bold text-stone-800">Delivered your order</Text>
-               <Text className="text-stone-400 text-sm">We deliver your goods to you in the shortes possible time.</Text>
-            </View>
-         </View>
-
-         {/* Courier Info */}
-         <View className="flex-row items-center">
-            <Image 
-               source={require('../assets/images/Image Onboarding.png')} 
-               className="w-14 h-14 rounded-xl mr-4"
-            />
-            <View className="flex-1">
-               <Text className="text-lg font-bold text-stone-800">Johan Hawn</Text>
-               <Text className="text-stone-400 text-sm">Personal Courier</Text>
-            </View>
-            <TouchableOpacity className="border border-stone-300 p-3 rounded-xl">
-               <Ionicons name="call-outline" size={24} color="black" />
-            </TouchableOpacity>
-         </View>
-      </View>
-    </View>
-  );
+   );
 }
