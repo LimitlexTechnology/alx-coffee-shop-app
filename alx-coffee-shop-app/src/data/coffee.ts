@@ -8,7 +8,7 @@ export const coffeeData: Coffee[] = [
     name: 'Caffe Mocha',
     type: 'Deep Foam',
     price: 4.53,
-    description: 'A cappuccino is an approximately 150 ml (5 oz) beverage, with 25 ml of espresso coffee and 85ml of fresh milk. The foam on top is made from steamed milk with a rich and creamy texture.',
+    description: 'A rich, full-bodied espresso combined with bittersweet chocolate sauce and steamed milk, then topped with sweetened whipped cream. The perfect balance of coffee and chocolate.',
     rating: 4.8,
     image: require('../assets/images/caffe-mocha.png'),
     category: 'Machiato',

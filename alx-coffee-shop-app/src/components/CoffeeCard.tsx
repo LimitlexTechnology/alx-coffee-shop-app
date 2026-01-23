@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
 // @ts-ignore
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Coffee } from '../types';
@@ -8,12 +8,18 @@ interface CoffeeCardProps {
     item: Coffee;
     onPress: () => void;
     onAddToCart: () => void;
+    numColumns?: number;
 }
 
-const { width } = Dimensions.get('window');
-const cardWidth = (width - 48 - 16) / 2; // (Screen Width - PaddingHorizontal - Gap) / 2
+const CoffeeCard = ({ item, onPress, onAddToCart, numColumns = 2 }: CoffeeCardProps) => {
+    const { width } = useWindowDimensions();
 
-const CoffeeCard = ({ item, onPress, onAddToCart }: CoffeeCardProps) => {
+    // Calculate width based on columns and padding
+    // Padding: 24 on each side = 48
+    // Gap: 16 between cards
+    const totalHorizontalPadding = 48 + (numColumns - 1) * 16;
+    const cardWidth = (Math.min(width, 1024) - totalHorizontalPadding) / numColumns;
+
     return (
         <TouchableOpacity
             className="bg-white rounded-2xl p-2 mb-4 shadow-sm"

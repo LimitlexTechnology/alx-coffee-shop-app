@@ -3,7 +3,7 @@ import { View, Text, Image } from 'react-native';
 
 const PromoBanner = () => {
     return (
-        <View className="mx-6 mt-6 mb-6 rounded-2xl overflow-hidden h-36 relative bg-coffee-dark">
+        <View className="mx-6 mt-6 mb-6 rounded-2xl overflow-hidden h-40 relative bg-coffee-dark self-center w-full max-w-[1024px]">
             {/* Background Image Placeholder - In a real app this would be an Image component covering the background */}
             {/* Since we don't have the exact asset, we simulate the look with a view and colors or a generic image if available */}
             <View className="absolute inset-0 bg-coffee-dark" />

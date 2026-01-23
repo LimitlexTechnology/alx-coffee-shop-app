@@ -1,4 +1,4 @@
-import { View, FlatList, StatusBar, Image, Text } from "react-native";
+import { View, FlatList, StatusBar, Image, Text, useWindowDimensions, Platform } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +20,10 @@ export default function Home() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const [activeCategory, setActiveCategory] = useState('All Coffee');
   const addToCart = useStore((state) => state.addToCart);
+  const { width } = useWindowDimensions();
+
+  // Determine number of columns based on screen width
+  const numColumns = width < 600 ? 2 : width < 900 ? 3 : 4;
 
   const filteredCoffee = activeCategory === 'All Coffee'
     ? coffeeData
@@ -37,36 +41,46 @@ export default function Home() {
     <View className="flex-1 bg-coffee-header">
       <StatusBar barStyle="light-content" backgroundColor="#131313" />
       <SafeAreaView edges={['top']} className="flex-0 bg-coffee-header">
-        <Header />
+        <View style={{ alignSelf: 'center', width: '100%', maxWidth: 1024 }}>
+          <Header />
+        </View>
       </SafeAreaView>
 
-      <View className="flex-1 bg-coffee-light">
-        <FlatList
-          data={filteredCoffee}
-          renderItem={({ item }) => (
-            <CoffeeCard
-              item={item}
-              onPress={() => handleProductPress(item)}
-              onAddToCart={() => handleAddToCart(item)}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-          numColumns={2}
-          columnWrapperStyle={{ justifyContent: 'space-between', paddingHorizontal: 24 }}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100, paddingTop: 24 }}
-          ListHeaderComponent={() => (
-            <View>
-              <View className="-mt-8 mb-4">
-                <PromoBanner />
-              </View>
-              <Categories
-                activeCategory={activeCategory}
-                setActiveCategory={setActiveCategory}
+      <View className="flex-1 bg-coffee-light items-center">
+        <View style={{ width: '100%', maxWidth: 1024, flex: 1 }}>
+          <FlatList
+            key={numColumns} // Force re-render when columns change
+            data={filteredCoffee}
+            renderItem={({ item }) => (
+              <CoffeeCard
+                item={item}
+                onPress={() => handleProductPress(item)}
+                onAddToCart={() => handleAddToCart(item)}
+                numColumns={numColumns}
               />
-            </View>
-          )}
-        />
+            )}
+            keyExtractor={(item) => item.id}
+            numColumns={numColumns}
+            columnWrapperStyle={{
+              justifyContent: 'flex-start',
+              gap: 16,
+              paddingHorizontal: 24
+            }}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100, paddingTop: 24 }}
+            ListHeaderComponent={() => (
+              <View>
+                <View className="-mt-8 mb-4">
+                  <PromoBanner />
+                </View>
+                <Categories
+                  activeCategory={activeCategory}
+                  setActiveCategory={setActiveCategory}
+                />
+              </View>
+            )}
+          />
+        </View>
       </View>
     </View>
   );
