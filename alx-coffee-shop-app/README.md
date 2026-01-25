@@ -155,6 +155,10 @@ The app can be deployed to:
 
 This project is part of ALX learning curriculum.
 
+## 📌 Featured On
+
+- [LinkedIn Post](https://www.linkedin.com/posts/prosper-yesuli-gakpleazi_alx-softwareengineering-reactnative-activity-7421291684631670784-bayc?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC3_QPIBCPszUSDddRFmduJveUAI3aPFPoA)
+
 ---
 
 **Note**: This documentation reflects the development process and challenges encountered during the creation of this coffee shop application, with specific focus on the image display and responsive design issues that were successfully resolved.
